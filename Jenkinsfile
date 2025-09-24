@@ -16,6 +16,7 @@ pipeline {
                     image 'node:18-alpine'
                     args '-v /var/lib/jenkins/workspace/learn-jenkins-app:/app' // 1. Map the Jenkins workspace to /app
                     reuseNode true
+                    user '970:970'
                 }
             }
             steps {
