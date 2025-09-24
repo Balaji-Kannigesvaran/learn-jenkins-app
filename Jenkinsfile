@@ -14,7 +14,7 @@ pipeline {
                     ls -la
                     node --version
                     npm --version
-                    npm cache clean --force
+                    npm install --legacy-peer-deps
                     npm ci
                     ls -la
                     npm run build
