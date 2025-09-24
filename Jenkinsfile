@@ -14,13 +14,12 @@ pipeline {
             agent {
                 docker {
                     image 'node:18-alpine'
-                    args '-v /var/lib/jenkins/workspace/learn-jenkins-app:/app' // 1. Map the Jenkins workspace to /app
+                    // Combine the -v and --user flags into a single args string
+                    args '-v /var/lib/jenkins/workspace/learn-jenkins-app:/app --user 970:970'
                     reuseNode true
-                    user '970:970'
                 }
             }
             steps {
-                // 2. Change the working directory and run a clean install
                 dir('/app') {
                     sh '''
                         rm -rf node_modules
