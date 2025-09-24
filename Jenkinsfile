@@ -1,7 +1,17 @@
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout true
+    }
+
     stages {
+        stage('Checkout') {
+            steps {
+                cleanWs() // 1. Use the built-in Jenkins cleanup step
+                checkout scm
+            }
+        }
         stage('Build') {
             agent {
                 docker {
@@ -11,17 +21,12 @@ pipeline {
             }
             steps {
                 sh '''
-                    # This command is now executed by the container's user,
-                    # ensuring it has the necessary permissions.
-                    rm -rf node_modules
-
-                    # Clearing the npm cache forcefully inside the container.
+                    # 2. Run cache and node_modules cleanup
                     npm cache clean --force
+                    rm -rf node_modules
                     
-                    # Install dependencies from package-lock.json
+                    # 3. Install and build
                     npm ci
-
-                    # Build the application
                     npm run build
                 '''
             }
