@@ -14,6 +14,7 @@ pipeline {
                     ls -la
                     node --version
                     npm --version
+                    rm -rf node_modules
                     npm install --legacy-peer-deps
                     npm ci
                     ls -la
