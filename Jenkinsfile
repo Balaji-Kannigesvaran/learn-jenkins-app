@@ -11,16 +11,17 @@ pipeline {
             }
             steps {
                 sh '''
-                    ls -la
-                    node --version
-                    npm --version
-                    # Force removal of the node_modules directory to prevent 'ENOTEMPTY' errors
+                    # Clean the local node_modules directory to avoid permission issues
                     rm -rf node_modules
+
+                    # Clear the npm cache forcefully to fix any corruption
                     npm cache clean --force
+                    
+                    # Install dependencies from package-lock.json
                     npm ci
-                    ls -la
+
+                    # Build the application
                     npm run build
-                    ls -la
                 '''
             }
         }
