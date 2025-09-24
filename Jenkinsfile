@@ -11,10 +11,11 @@ pipeline {
             }
             steps {
                 sh '''
-                    # Clean the local node_modules directory to avoid permission issues
+                    # This command is now executed by the container's user,
+                    # ensuring it has the necessary permissions.
                     rm -rf node_modules
 
-                    # Clear the npm cache forcefully to fix any corruption
+                    # Clearing the npm cache forcefully inside the container.
                     npm cache clean --force
                     
                     # Install dependencies from package-lock.json
