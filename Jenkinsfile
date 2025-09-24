@@ -1,14 +1,12 @@
 pipeline {
     agent any
-
     options {
         skipDefaultCheckout true
     }
-
     stages {
         stage('Checkout') {
             steps {
-                cleanWs() // 1. Use the built-in Jenkins cleanup step
+                cleanWs()
                 checkout scm
             }
         }
@@ -16,19 +14,19 @@ pipeline {
             agent {
                 docker {
                     image 'node:18-alpine'
+                    args '-v /var/lib/jenkins/workspace/learn-jenkins-app:/app' // 1. Map the Jenkins workspace to /app
                     reuseNode true
                 }
             }
             steps {
-                sh '''
-                    # 2. Run cache and node_modules cleanup
-                    npm cache clean --force
-                    rm -rf node_modules
-                    
-                    # 3. Install and build
-                    npm ci
-                    npm run build
-                '''
+                // 2. Change the working directory and run a clean install
+                dir('/app') {
+                    sh '''
+                        rm -rf node_modules
+                        npm ci
+                        npm run build
+                    '''
+                }
             }
         }
     }
