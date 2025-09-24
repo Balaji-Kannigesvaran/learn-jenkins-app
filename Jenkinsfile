@@ -11,20 +11,14 @@ pipeline {
             }
             steps {
                 sh '''
-                    # Clear npm cache
-                    npm cache clean --force
-                    
-                    # Install a specific, stable version of npm to rule out version bugs
-                    npm install -g npm@10.5.0
-                    
+                    ls -la
                     node --version
                     npm --version
-                    
                     rm -rf node_modules
-                    
-                    npm ci
-                    
+                    sudo npm ci
+                    ls -la
                     npm run build
+                    ls -la
                 '''
             }
         }
