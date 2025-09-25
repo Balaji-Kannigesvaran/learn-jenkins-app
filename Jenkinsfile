@@ -1,10 +1,12 @@
 pipeline {
+    agent any
+
     stages {
         stage('Build') {
             agent {
                 docker {
                     image 'node:18-alpine'
-                    reuseNode true
+                    reusenode true
                 }
             }
             steps {
@@ -12,9 +14,6 @@ pipeline {
                     ls -la
                     node --version
                     npm --version
-                    export npm_config_cache=$PWD/.npm-cache
-                    npm ci
-                    ls -la
                     npm run build
                     ls -la
                 '''
