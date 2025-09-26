@@ -46,6 +46,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    export npm_config_cache=$PWD/.npm-cache
                     npm install serve
                     node_modules/.bin/serve -s build
                     npx playwright test
